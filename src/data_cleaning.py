@@ -120,7 +120,7 @@ if __name__ == "__main__":
 
     # Charger les données
     df = pd.read_csv(r"C:\Users\etudiant\Desktop\URCA M1 IA\URCA M1 IA\BDA\Rec\data\Animes-Dataset-raw.csv").drop_duplicates()
-    df2 = pd.read_csv(r"C:\Users\etudiant\Desktop\URCA M1 IA\URCA M1 IA\BDA\Rec\data\\rating_complete.csv").rename(columns={"anime_id": "MAL_ID"})[:2000000]
+    df2 = pd.read_csv(r"C:\Users\etudiant\Desktop\URCA M1 IA\URCA M1 IA\BDA\Rec\data\\Rating-Dataset-raw.csv")
 
     # Prétraitement des données de notation
     print("Prétraitement des données de notation...")
