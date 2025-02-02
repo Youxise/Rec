@@ -4,16 +4,12 @@ from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import ast
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import os
+import psycopg2
 
-# Configuration PostgreSQL
-DB_USER = "postgres"
-DB_PASSWORD = "youx123"
-DB_HOST = "localhost"
-DB_PORT = "5432"
-DB_NAME = "rec_db"
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:youx123@localhost:5432/rec_db")
 
-# Connect to DB
-engine = create_engine(f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+engine = psycopg2.connect(DATABASE_URL)
 
 # Filter rating dataframe 
 def filter_rating_db(df, df2):

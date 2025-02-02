@@ -1,6 +1,12 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import psycopg2
+
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 from src.models import ContentRecommender, FPGrowthRecommender, combine_results  # assuming models are in a separate file
 
 app = Flask(__name__)

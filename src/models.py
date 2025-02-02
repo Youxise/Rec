@@ -3,13 +3,11 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from mlxtend.frequent_patterns import fpgrowth, association_rules
 import psycopg2
+import os
 
-engine = psycopg2.connect(
-        host="localhost",  # Usually 'localhost' or the actual database server address
-        database="rec_db",  # The name of your PostgreSQL database
-        user="postgres",  # Your PostgreSQL username
-        password="youx123"  # Your PostgreSQL password
-    )
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:youx123@localhost:5432/rec_db")
+
+engine = psycopg2.connect(DATABASE_URL)
 
 # ------------------------------------------------- Content Filtering Recommender ------------------------------------------------- #
 
