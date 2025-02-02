@@ -1,4 +1,4 @@
-beautifulsoup4==4.12.3
+beautifulsoup4==4.13.0
 Flask==2.2.5
 mlxtend==0.23.3
 numpy==2.2.2
@@ -8,4 +8,4 @@ pytest==8.3.4
 Requests==2.32.3
 scikit_learn==1.6.1
 sentence_transformers==3.3.1
-SQLAlchemy==1.4.54
+SQLAlchemy==2.0.37
