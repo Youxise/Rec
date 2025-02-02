@@ -11,8 +11,8 @@ DB_PORT = "5432"
 DB_NAME = "rec_db"
 
 # Create SQLAlchemy engine
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-engine = create_engine(DATABASE_URL)
+DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+engine = create_engine(DATABASE_URL, pool_recycle=3600)
 
 print("Creating tables and inserting data...")
 
@@ -29,6 +29,8 @@ for table, filename in csv_files.items():
     file_path = os.path.join(data_path, filename)
     if os.path.exists(file_path):  # Ensure file exists
         df = pd.read_csv(file_path)
+        print(df.columns)
+        print(df)
         df.to_sql(table, engine, if_exists="replace", index=False)
         print(f"Inserted data into {table}")
     else:
