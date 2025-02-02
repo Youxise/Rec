@@ -50,7 +50,7 @@ jobs:
         run: pwd && ls -la
 
       - name: Create Database Schema and Insert Data
-        run: python ./db_setup.py
+        run: python src/db_setup.py
 
       - name: Run Tests
         run: pytest
