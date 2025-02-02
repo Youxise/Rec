@@ -13,7 +13,6 @@ DB_NAME = "rec_db"
 # Create SQLAlchemy engine
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 engine = create_engine(DATABASE_URL)
-connection = engine.connect().connection()
 
 print("Creating tables and inserting data...")
 
@@ -30,7 +29,7 @@ for table, filename in csv_files.items():
     file_path = os.path.join(data_path, filename)
     if os.path.exists(file_path):  # Ensure file exists
         df = pd.read_csv(file_path)
-        df.to_sql(table, connection, if_exists="replace", index=False)
+        df.to_sql(table, engine, if_exists="replace", index=False)
         print(f"Inserted data into {table}")
     else:
         print(f"File {file_path} not found!")
