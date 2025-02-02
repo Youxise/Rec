@@ -7,10 +7,11 @@ from sqlalchemy import create_engine
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = "localhost"
+DB_PORT = "5432"
 DB_NAME = "rec_db"
 
 # Create SQLAlchemy engine
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 engine = create_engine(DATABASE_URL)
 
 print("Creating tables and inserting data...")
