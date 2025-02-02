@@ -5,9 +5,12 @@ from mlxtend.frequent_patterns import fpgrowth, association_rules
 import psycopg2
 import os
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:youx123@localhost:5432/rec_db")
-
-engine = psycopg2.connect(DATABASE_URL)
+engine = psycopg2.connect(
+        host="localhost",  # Usually 'localhost' or the actual database server address
+        database="rec_db",  # The name of your PostgreSQL database
+        user=os.getenv("DB_USER"),  # Your PostgreSQL username
+        password=os.getenv("DB_PASSWORD")  # Your PostgreSQL password
+    )
 
 # ------------------------------------------------- Content Filtering Recommender ------------------------------------------------- #
 

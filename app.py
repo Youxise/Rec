@@ -16,8 +16,8 @@ def create_db_connection():
     connection = psycopg2.connect(
         host="localhost",  # Usually 'localhost' or the actual database server address
         database="rec_db",  # The name of your PostgreSQL database
-        user="postgres",  # Your PostgreSQL username
-        password="youx123"  # Your PostgreSQL password
+        user=os.getenv("DB_USER"),  # Your PostgreSQL username
+        password=os.getenv("DB_PASSWORD")  # Your PostgreSQL password
     )
     return connection
 

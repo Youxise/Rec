@@ -7,9 +7,12 @@ from sentence_transformers import SentenceTransformer
 import os
 import psycopg2
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:youx123@localhost:5432/rec_db")
-
-engine = psycopg2.connect(DATABASE_URL)
+engine = psycopg2.connect(
+        host="localhost",  # Usually 'localhost' or the actual database server address
+        database="rec_db",  # The name of your PostgreSQL database
+        user=os.getenv("DB_USER"),  # Your PostgreSQL username
+        password=os.getenv("DB_PASSWORD")  # Your PostgreSQL password
+    )
 
 # Filter rating dataframe 
 def filter_rating_db(df, df2):
