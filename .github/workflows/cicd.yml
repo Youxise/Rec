@@ -46,9 +46,6 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Debug Working Directory
-        run: pwd && ls -la
-
       - name: Create Database Schema and Insert Data
         run: python src/db_setup.py
 
@@ -76,8 +73,8 @@ jobs:
   deploy:
     needs: deploy-build  # Exécute après le job "deploy-build"
     runs-on: ubuntu-latest
+    
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
         
