@@ -70,13 +70,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/rec-app:latest
-
   deploy:
     needs: deploy-build  # Exécute après le job "deploy-build"
     runs-on: ubuntu-latest
@@ -84,7 +77,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v4
         with:
-          image: youxise/rec-app
+          image: ${{ secrets.DOCKER_USERNAME }}/rec-app
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
