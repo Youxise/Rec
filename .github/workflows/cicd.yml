@@ -80,6 +80,10 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Debug
+        run : pwd && ls -l
+              find . -name "Dockerfile"
         
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v4
