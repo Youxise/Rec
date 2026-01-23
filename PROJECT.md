@@ -11,8 +11,6 @@ gallery:
 links:
   - label: 'GitHub'
     href: 'https://github.com/Youxise/Rec'
-  - label: 'Demo Live'
-    href: 'http://localhost:5000'
 ---
 
 ## Résumé
