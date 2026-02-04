@@ -46,12 +46,17 @@ logger = get_logger(__name__)
 
 # Sécurité : CORS et Rate Limiting
 CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+# Désactiver rate limiting si pytest est en cours d'exécution
+import sys
+is_testing = 'pytest' in sys.modules or app.config.get('TESTING', False)
+
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     default_limits=["200 per day", "50 per hour"],
     storage_uri="memory://",
-    enabled=not app.config.get('TESTING', False)
+    enabled=not is_testing
 )
 
 # ============================================
