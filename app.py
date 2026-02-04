@@ -140,7 +140,7 @@ def index():
 
 
 @app.route('/search_animes', methods=['GET'])
-@limiter.limit("30 per minute")
+@limiter.limit("1000 per minute")
 def search_animes():
     """
     Recherche d'animes par titre (autocomplétion).
@@ -189,7 +189,7 @@ def search_animes():
 
 
 @app.route('/recommendations', methods=['POST'])
-@limiter.limit("10 per minute")
+@limiter.limit("1000 per minute")
 def recommendations():
     """
     Génère des recommandations basées sur une sélection d'animes.
@@ -308,7 +308,7 @@ def recommendations():
 
 
 @app.route('/discover_animes', methods=['GET'])
-@limiter.limit("30 per minute")
+@limiter.limit("1000 per minute")
 def discover_animes():
     """
     Découvre des animes avec filtres et tri.
