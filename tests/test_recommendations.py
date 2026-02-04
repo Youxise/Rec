@@ -13,6 +13,9 @@ import pandas as pd
 # Add project root to path
 import sys
 import os
+
+# Désactiver rate limiting pour les tests
+os.environ['TESTING'] = '1'
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 

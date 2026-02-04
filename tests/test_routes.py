@@ -5,6 +5,9 @@ import os
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+# Désactiver rate limiting pour les tests
+os.environ['TESTING'] = '1'
+
 from app import app
 
 @pytest.fixture
