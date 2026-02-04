@@ -1,0 +1,93 @@
+services:
+  # Base de données PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: rec_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-rec_db}
+      # Optimisations PostgreSQL
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+    volumes:
+      # Persistance des données
+      - postgres_data:/var/lib/postgresql/data
+      # Scripts d'initialisation (optionnel)
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - rec_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Application Flask
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rec_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Override DB_HOST pour utiliser le service docker
+      DB_HOST: db
+      FLASK_ENV: ${FLASK_ENV:-development}
+    ports:
+      - "5000:5000"
+    volumes:
+      # Pour le développement : montage du code source
+      - .:/app
+      # Persistance des logs
+      - ./logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - rec_network
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        python -c 'import time; time.sleep(5)' &&
+        echo 'Setting up database...' &&
+        python src/db_setup.py &&
+        echo 'Starting Flask application...' &&
+        python app.py
+      "
+
+  # PgAdmin pour gérer la base de données (optionnel, pour le dev)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: rec_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@rec.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - rec_network
+    profiles:
+      - dev  # Ce service ne démarre qu'avec: docker-compose --profile dev up
+
+# Volumes pour la persistance des données
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+# Réseau pour la communication entre services
+networks:
+  rec_network:
+    driver: bridge
