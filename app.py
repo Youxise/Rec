@@ -18,6 +18,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from werkzeug.exceptions import BadRequest
 import sys
 import os
 from pathlib import Path
@@ -49,7 +50,8 @@ limiter = Limiter(
     app=app,
     key_func=get_remote_address,
     default_limits=["200 per day", "50 per hour"],
-    storage_uri="memory://"
+    storage_uri="memory://",
+    enabled=not app.config.get('TESTING', False)
 )
 
 # ============================================
@@ -291,10 +293,13 @@ def recommendations():
     except ValueError as e:
         logger.warning(f"Erreur de validation : {e}")
         return jsonify({"error": str(e)}), 400
+    
+    except BadRequest as e:
+        logger.warning(f"Requête invalide : {e}")
+        return jsonify({"error": "Corps de requête JSON invalide"}), 400
         
     except Exception as e:
         logger.error(f"Erreur lors de la génération de recommandations : {e}", exc_info=True)
-        return jsonify({"error": "Erreur interne du serveur"}), 500
         return jsonify({"error": "Erreur interne du serveur"}), 500
 
 
