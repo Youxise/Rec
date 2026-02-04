@@ -59,7 +59,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry install --with dev
+          poetry install --with dev --no-root
 
       - name: Create Database Schema and Insert Data
         run: poetry run python src/db_setup.py

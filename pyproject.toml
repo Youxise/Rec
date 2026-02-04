@@ -23,6 +23,13 @@ dependencies = [
     "sqlalchemy (==2.0.36)"
 ]
 
+[tool.poetry]
+name = "rec"
+version = "0.1.0"
+description = "Anime Recommendation System"
+authors = ["URCA M2 IA"]
+package-mode = false
+
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
